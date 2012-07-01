@@ -1,0 +1,17 @@
+<%
+   issuesGroupedByVersion = issues.group_by { |issue| issue.fixed_version }
+   issuesGroupedByVersion.keys.sort { |v1,v2| if v1.nil? then +1 else v2.nil? ? -1 : v1<=>v2 end }.each do |version|
+     issuesOfVersion = issuesGroupedByVersion[version]
+     time_left = issuesOfVersion.sum{ |issue| issue_time_left(issue) } || 0
+%>
+    <tr class="group">
+        <td colspan="7"><%=l(:field_fixed_version) %>: <%= version || "?" %></td>
+        <td class="center"><%= time_left.round(2) %></td>
+    </tr>
+    <%= render :partial => "issue", :collection => issuesOfVersion %>
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
+<%
+   end
+%>

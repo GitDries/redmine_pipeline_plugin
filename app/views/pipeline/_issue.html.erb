@@ -1,0 +1,25 @@
+<tr id="issue-<%= h(issue.id) %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %>">
+    <td class="id">
+        <%= check_box_tag("ids[]", issue.id, false, :style => 'display:none;', :id => nil) %>
+        <%= link_to(h(issue.id), :controller => 'issues', :action => 'show', :id => issue) %>
+    </td>
+    <% unless @group==:project %>
+        <td class="project"><%= link_to_project(issue.project) %></td>
+    <% end %>
+    <% unless @group==:tracker %>
+        <td class="tracker"><%=h issue.tracker %></td>
+    <% end %>
+    <% unless @group==:month %>
+        <td class="user"><%= issue.assigned_to %></td>
+    <% end %>
+    <td class="subject">
+        <%= link_to h(truncate(issue.subject, :length => 60)), :controller => 'issues', :action => 'show', :id => issue %> (<%=h issue.status %>)
+    </td>
+    <td class="center"><%= issue.estimated_hours %></td>
+    <td class="center"><%= issue.spent_hours %></td>
+    <td class="center"><%= issue_time_left(issue).round(2) %></td>
+    <% if @group==:month %>
+        <td></td>
+        <td></td>
+    <% end %>
+</tr>

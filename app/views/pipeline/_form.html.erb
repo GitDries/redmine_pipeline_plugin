@@ -1,0 +1,38 @@
+<div id="pipeline-form" style="display: inline;">
+<fieldset>
+    <%= form_tag do  %>
+
+    <p style="float: left">
+      <label for="pipeline-projects" class="select_all"><%= l(:description_choose_project)%>:</label><br />
+      <%= select_tag "pipeline[projects][]", options_from_collection_for_select(@projects, :id, :name, @projects_selected), { :multiple => true, :size => 10 } %>
+    </p>
+
+    <p style="float: left">
+        <label for="pipeline-trackers" class="select_all"><%= l(:label_tracker_plural)%>:</label><br />
+        <%= select_tag "pipeline[trackers][]", options_from_collection_for_select(@trackers, :id, :name, @trackers_selected), { :multiple => true, :size => 10 } %>
+    </p>
+
+
+    <p style="float: left">
+      <label for="pipeline-statuses" class="select_all"><%= l(:label_issue_status_plural)%>:</label><br />
+        <%= select_tag 'pipeline[statuses][]', options_from_collection_for_select(@statuses, :id, :name, @statuses_selected), { :multiple => true, :size => 10 } %>
+    </p>
+
+    <p style="float: left">
+      <label for="pipeline-users" class="select_all"><%= l(:label_user_plural)%>:</label><br />
+        <%= select_tag 'pipeline[users][]', options_from_collection_for_select(@users, :id, :name, @users_selected), { :multiple => true, :size => 10 } %>
+    </p>
+
+    <p style="float: left">
+        <label for="pipeline-group"><%= l(:field_group_by) %>:</label><br />
+        <%= select_tag("pipeline[group]", options_for_select(@grouping_options.invert, @group)) %>
+    </p>
+
+    <div style="clear: both;"></div>
+
+    <%= submit_tag l(:button_apply), :style => "float: left;" %>
+    <% end %>
+    <%= button_to(l(:button_clear), {:controller => 'pipeline', :action => 'reset'}, :method => 'delete', :style => "float: left;") %>
+    <div style="clear: both;"></div>
+</fieldset>
+</div>
