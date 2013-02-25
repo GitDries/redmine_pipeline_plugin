@@ -2,18 +2,18 @@
 number_of_users = issues.collect{ |issue| issue.assigned_to }.uniq().count{ |user| !user.nil? }
 workhours_per_day = 8
 
-issuesGroupedByDate = issues.group_by { |issue| issue_group_month(issue) }
+issuesGroupedByDate = issues.group_by { |issue| issue_group_week(issue) }
 issuesGroupedByDate.keys.sort { |d1,d2| if d1.nil? then +1 else d2.nil? ? -1 : d1<=>d2 end }.each do |date|
     issuesOfDate = issuesGroupedByDate[date]
     time_left = issuesOfDate.sum{ |issue| issue_time_left(issue) } || 0
-    capacity_in_days = (workdays_in_month(date) unless date.nil?) || 0
+    capacity_in_days = (workdays_in_week(date) unless date.nil?) || 0
     workload = ( time_left/(capacity_in_days*workhours_per_day*number_of_users)*100 unless capacity_in_days == 0 ) || 100
 %>
     <tr class="group" style="background-color: #eee;">
-        <td colspan="6"><%=l(:label_month) %>: <%= date || "?" %></td>
+        <td colspan="6"><%=l(:label_week) %>: <%= date || "?" %></td>
         <td class="center"><%= format_duration(time_left) %></td>
         <td class="center">8h*<%= capacity_in_days %>d*<%= number_of_users %></td>
-        <td class="center <%= "highlight" if workload>90 %>"><%= format_workload(workload) %>%</td>
+        <td class="center <%= "highlight" if workload>90 %>"><%= format_workload( workload ) %></td>
     </tr>
 <%
        issuesGroupedByUser = issuesOfDate.group_by { |issue| issue.assigned_to }
@@ -26,7 +26,7 @@ issuesGroupedByDate.keys.sort { |d1,d2| if d1.nil? then +1 else d2.nil? ? -1 : d
             <td colspan="6"><%=l(:field_assigned_to) %>: <%= user || "?" %></td>
             <td class="center"><%= format_duration(time_left) %></td>
             <td class="center">8h*<%= capacity_in_days %>d</td>
-            <td class="center <%= "highlight" if workload>90 %>"><%= format_workload(workload) %>%</td>
+            <td class="center <%= "highlight" if workload>90 %>"><%= format_workload(workload) %></td>
          </tr>
          <%= render :partial => "issue", :collection => issuesOfUser %>
 <%

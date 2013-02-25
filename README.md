@@ -6,7 +6,7 @@ Pipeline is a Redmine plugin to ease the estimation of available capacity.
 
 * Sums the estimated times of open issues
 * Multiple filter and grouping-options build-in, for the calculation of these times
-* An optional capacity calculation on a per month basis 
+* An optional capacity calculation on a per month or per week basis
 
 ## Install
 
@@ -23,4 +23,4 @@ Then, the link to the report is displayed on the top left menu.
 ## Feedback
 
 Feedback is very much appreciated.
-This plugin is tested on Redmine 2.0.3.stable, backed with a PostgreSQL-database.
+This plugin is tested on Redmine 2.3, backed with a MySQL-database.

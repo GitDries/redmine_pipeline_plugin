@@ -9,16 +9,16 @@
     <% unless @group==:tracker %>
         <td class="tracker"><%=h issue.tracker %></td>
     <% end %>
-    <% unless @group==:month %>
+    <% unless (@group==:month || @group==:week) %>
         <td class="user"><%= issue.assigned_to %></td>
     <% end %>
     <td class="subject">
         <%= link_to h(truncate(issue.subject, :length => 60)), :controller => 'issues', :action => 'show', :id => issue %> (<%=h issue.status %>)
     </td>
-    <td class="center"><%= issue.estimated_hours %></td>
-    <td class="center"><%= issue.spent_hours %></td>
-    <td class="center"><%= issue_time_left(issue).round(2) %></td>
-    <% if @group==:month %>
+    <td class="center"><%= format_duration(issue.estimated_hours) %></td>
+    <td class="center"><%= format_duration(issue.spent_hours) %></td>
+    <td class="center"><%= format_duration(issue_time_left(issue)) %></td>
+    <% if (@group==:month || @group==:week) %>
         <td></td>
         <td></td>
     <% end %>

@@ -2,20 +2,40 @@ module PipelineHelper
 
   # @param [Date] date
   def workdays_in_month(date)
-    d1 = Date.new( date.year, date.month, 1)
-    d2 = Date.new( date.year, date.month, -1)
-    if date.year == Date.today.year && date.month == Date.today.month
-      d1 = Date.today
-    end
     wdays = [0,6] #weekend days by numbers on week
-    (d1..d2).reject { |d| wdays.include? d.wday }.size
+    if date.beginning_of_month.past?
+      (Date.today..date.end_of_month).reject { |d| wdays.include? d.wday }.size
+    else
+      (date.beginning_of_month..date.end_of_month).reject { |d| wdays.include? d.wday }.size
+    end
+  end
+
+  def workdays_in_week(date)
+    if date.beginning_of_week.past?
+      wdays = [0,6] #weekend days by numbers on week
+      (Date.today..date.end_of_week).reject { |d| wdays.include? d.wday }.size
+    else
+      5
+    end
   end
 
   def issue_group_month(issue)
     if issue.due_before.nil?
       nil
+    elsif issue.due_before.past?
+      Date.today.end_of_month
     else
-      Date.new( issue.due_before.year, issue.due_before.month, -1 )
+      issue.due_before.end_of_month
+    end
+  end
+  
+  def issue_group_week(issue)
+    if issue.due_before.nil?
+      nil
+    elsif issue.due_before.past?
+      Date.today.end_of_week
+    else
+      issue.due_before.end_of_week
     end
   end
 
@@ -28,4 +48,14 @@ module PipelineHelper
       [(issue.estimated_hours - issue.spent_hours), (issue.estimated_hours*0.1)].max
     end
   end
+
+  def format_duration(duration)
+    number_with_precision(duration, :precision => 2)
+  end
+
+  def format_workload(workload)
+    workload.to_i.to_s + "%"
+  end
+
+
 end

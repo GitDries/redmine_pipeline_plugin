@@ -17,14 +17,14 @@
         <% unless @group==:tracker %>
             <th><%=l(:field_tracker)%></th>
         <% end %>
-        <% unless @group==:month %>
+        <% unless (@group==:month || @group==:week) %>
             <th><%=l(:field_assigned_to)%></th>
         <% end %>
             <th><%=l(:field_subject)%></th>
             <th><%=l(:field_estimated_hours)%></th>
             <th><%=l(:label_spent_time)%></th>
             <th>Time left</th>
-        <% if @group==:month %>
+        <% if (@group==:month || @group==:week) %>
             <th>Capacity</th>
             <th>Workload</th>
         <% end %>
@@ -41,11 +41,15 @@
     %>
             <%= render :partial => "by_tracker", :locals => { :issues => issues } %>
     <%
-       when :version
+         when :version
     %>
             <%= render :partial => "by_version", :locals => { :issues => issues } %>
-        <%
-           else #default to :month
+	<%
+         when :week
+    %>
+            <%= render :partial => "by_week", :locals => { :issues => issues } %>
+    <%
+         else #default to :month
     %>
             <%= render :partial => "by_month", :locals => { :issues => issues } %>
     <%

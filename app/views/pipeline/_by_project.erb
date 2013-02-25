@@ -6,7 +6,7 @@
 %>
       <tr class="group">
         <td colspan="6"><%=l(:field_project) %>: <%= link_to_project(project) %></td>
-        <td class="center"><%= time_left.round(2) %></td>
+        <td class="center"><%= format_duration(time_left) %></td>
       </tr>
       <%= render :partial => "issue", :collection => issuesOfProject %>
       <tr>
