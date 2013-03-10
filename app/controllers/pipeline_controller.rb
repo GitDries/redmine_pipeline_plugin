@@ -35,9 +35,9 @@ class PipelineController < ApplicationController
 	              :p_ids => @projects_selected,
 	              :t_ids => @trackers_selected,
                   :s_ids => @statuses_selected,
-	              :u_ids => @users_selected)
-            .includes(:tracker, :assigned_to, :project, :time_entries)
-            .order('project_id ASC, status_id DESC, tracker_id ASC')
+	              :u_ids => @users_selected
+			).includes(:tracker, :assigned_to, :project, :time_entries
+			).order('project_id ASC, status_id DESC, tracker_id ASC')
 
   end
 
