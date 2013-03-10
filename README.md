@@ -11,7 +11,7 @@ Pipeline is a Redmine plugin to ease the estimation of available capacity.
 ## Install
 
 1. Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins 
-Make sure the plugin is installed to <tt>vendor/plugins/redmine_pipeline</tt>.
+Make sure the plugin is installed to <tt>/plugins/redmine_pipeline_plugin</tt>.
 2. This plugin doesn't need any database migrations
 3. Restart your Redmine
 
