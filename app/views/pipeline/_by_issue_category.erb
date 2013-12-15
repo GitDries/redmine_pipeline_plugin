@@ -1,0 +1,17 @@
+<%
+   issuesGroupedByIssueCategory = issues.group_by { |issue| issue.category }
+   issuesGroupedByIssueCategory.keys.sort { |v1,v2| if v1.nil? then +1 else v2.nil? ? -1 : v1<=>v2 end }.each do |category|
+     issuesOfCategory = issuesGroupedByIssueCategory[category]
+     time_left = issuesOfCategory.sum{ |issue| issue_time_left(issue) } || 0
+%>
+    <tr class="group">
+        <td colspan="7"><%=l(:label_issue_category) %>: <%= category || "?" %></td>
+        <td class="center"><%= format_duration(time_left) %></td>
+    </tr>
+    <%= render :partial => "issue", :collection => issuesOfCategory %>
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
+<%
+   end
+%>

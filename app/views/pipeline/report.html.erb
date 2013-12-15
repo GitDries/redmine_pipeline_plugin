@@ -44,6 +44,10 @@
          when :version
     %>
             <%= render :partial => "by_version", :locals => { :issues => issues } %>
+    <%
+         when :issue_category
+    %>
+            <%= render :partial => "by_issue_category", :locals => { :issues => issues } %>
 	<%
          when :week
     %>
