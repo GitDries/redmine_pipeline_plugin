@@ -20,7 +20,7 @@
 
     <p style="float: left">
       <label for="pipeline-users" class="select_all"><%= l(:label_user_plural)%>:</label><br />
-        <%= select_tag 'pipeline[users][]', options_from_collection_for_select(@users, :id, :name, @users_selected), { :multiple => true, :size => 10 } %>
+        <%= select_tag 'pipeline[users][]', options_from_collection_for_select(@users.sort, :id, :name, @users_selected), { :multiple => true, :size => 10 } %>
     </p>
 
     <p style="float: left">
