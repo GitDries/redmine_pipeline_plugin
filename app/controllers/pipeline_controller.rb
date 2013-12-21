@@ -3,14 +3,14 @@ class PipelineController < ApplicationController
 
   layout 'base'
 
-  before_filter :require_admin
+  before_filter :authorize_global
   menu_item :pipeline
 
   def report
     @users = User.active
     @statuses = IssueStatus.where(:is_closed => false)
     @trackers = Tracker.all
-    @projects = Project.active
+    @projects = Project.all(:conditions => Project.allowed_to_condition(User.current, :view_pipeline) )
     @grouping_options = Pipeline::ValidGroupOptions
 
     @users_selected = @users.collect{ |x| x.id }
@@ -41,11 +41,13 @@ class PipelineController < ApplicationController
 			).includes(:tracker, :assigned_to, :project, :time_entries
 			).order('project_id ASC, status_id DESC, tracker_id ASC')
 
+    #extra check against POST-forgery, private issues, ...
+    @todos = @todos.find_all{ |issue| issue.visible? }
   end
 
   def reset
     params[:pipeline].delete if params[:pipeline]
     redirect_to :action => 'report'
   end
-  
+
  end
